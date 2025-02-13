@@ -2,7 +2,7 @@ resource "aws_instance" "this" { # "this" means name of resource
   for_each = var.instances # terraform will give us a variable called ecah
   ami                    = "ami-09c813fb71547fc4f"
   vpc_security_group_ids = [aws_security_group.allow_loop.id]
-  instance_type          = each.value
+  instance_type          = each.value 
   tags = {
     Name = each.key # name of instance what we want to give
   }

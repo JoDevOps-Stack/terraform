@@ -6,3 +6,11 @@ variable "instances" {
         frontend = "t3.micro"
     }
 }
+
+variable "domain_name" {
+    default = "daws82.cick"
+}
+
+variable "zone_id" {
+    default = "Z0946373TECVA3VZONGV"
+}

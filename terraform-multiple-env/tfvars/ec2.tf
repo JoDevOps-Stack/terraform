@@ -1,16 +1,23 @@
-resource "aws_instance" "this" { # "this" means name of resource
+resource "aws_instance" "expense" { # "this" means name of resource
+   count = length(var.instances)
+  #count = 3
   ami                    = "ami-09c813fb71547fc4f"
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
   instance_type          = "t3.micro"
-  tags = {
-    Name = "terraform-demo" # name of instance what we want to give
-  }
+  # tags = {
+  #   Name = var.instances[count.index] # name of instance what we want to give
+  # } 
+  tags = merge( 
+    var.common_tags,
+    {
+      Name = "${var.project}-${var.environment}-${var.instances[count.index]}" #expense-dev-mysql
+    }
+  )
 
 }
 
-
 resource "aws_security_group" "allow_tls" { #here allow_tls is the name of resource,we can give anything
-  name        = "allow_tls"
+  name        = "${var.project}-${var.environment}" #expense-dev, expense-prod
   description = "Allow TLS inbound traffic and all outbound traffic"
 
   ingress {
@@ -28,6 +35,6 @@ resource "aws_security_group" "allow_tls" { #here allow_tls is the name of resou
   }
   
   tags = {
-    Name = "allow_tls"
+    Name = "${var.project}-${var.environment}"
   }
 }
